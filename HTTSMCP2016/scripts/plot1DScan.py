@@ -503,7 +503,7 @@ plot.DrawCMSLogo(pads[0], args.logo, args.logo_sub, 11, 0.045, 0.035, 1.2,  cmsT
 #if not args.no_input_label: plot.DrawTitle(pads[0], '#bf{Input:} %s' % collab, 3)
 #plot.DrawTitle(pads[0], '35.9 fb^{-1} (13 TeV)', 3)
 #plot.DrawTitle(pads[0], '41.9 fb^{-1} (13 TeV)', 3)
-plot.DrawTitle(pads[0], '77.8 fb^{-1} (13 TeV)', 3)
+plot.DrawTitle(pads[0], '41.5 fb^{-1} (13 TeV)', 3)
 #plot.DrawTitle(pads[0], 'm_{H} = 125 GeV', 1)
 pads[0].SetTicks(1)
 
@@ -528,10 +528,10 @@ if len(other_scans) >= 3:
         legend = ROOT.TLegend(0.46, 0.83, 0.95, 0.93, '', 'NBNDC')
         legend.SetNColumns(2)
 
-if args.POI == 'alpha': legend.AddEntry(main_scan['func'], args.main_label + ': #alpha_{hgg} = %.1f#circ{}^{#plus %.1f#circ}_{#minus %.1f#circ}' % (val_nom[0], val_nom[1], abs(val_nom[2])), 'L')
+if args.POI == 'alpha': legend.AddEntry(main_scan['func'], args.main_label + ': #alpha_{hgg} = %.1f#circ' % (abs(val_nom[0])), 'L')
 else: legend.AddEntry(main_scan['func'], args.main_label + ': %.2f{}^{#plus %.2f}_{#minus %.2f}' % (val_nom[0], val_nom[1], abs(val_nom[2])), 'L')
 for i, other in enumerate(other_scans):
-    legend.AddEntry(other['func'], other_scans_opts[i][1] + ': %.2f{}^{#plus %.2f}_{#minus %.2f}' % (other['val'][0], other['val'][1], abs(other['val'][2])), 'L')
+    legend.AddEntry(other['func'], other_scans_opts[i][1] + ': #alpha_{hgg} = %.1f#circ' % (other['val'][0]), 'L')
 # if len(args) >= 4: legend.AddEntry(syst_scan['func'], 'Stat. Only', 'L')
 legend.Draw()
 

@@ -374,10 +374,11 @@ int main(int argc, char** argv) {
     bool do_mva = false;    
     int do_control_plots = 0;
     bool useJHU = false;
- 
+    
     bool cross_check = false;
 
     string era;
+    string channels;
     po::variables_map vm;
     po::options_description config("configuration");
     config.add_options()
@@ -399,6 +400,7 @@ int main(int argc, char** argv) {
     ("do_mva", po::value<bool>(&do_mva)->default_value(false))
     ("do_control_plots", po::value<int>(&do_control_plots)->default_value(0))    
     ("era", po::value<string>(&era)->default_value("2016"))
+    ("channels", po::value<string>(&channels)->default_value({"all"}))
     ("ttbar_fit", po::value<bool>(&ttbar_fit)->default_value(true))
     ("cross_check", po::value<bool>(&cross_check)->default_value(false))
     ("useJHU", po::value<bool>(&useJHU)->default_value(false));
@@ -443,10 +445,26 @@ int main(int argc, char** argv) {
     input_dir["tt"]  = string(getenv("CMSSW_BASE")) + "/src/CombineHarvester/HTTSMCP2016/shapes/"+input_folder_tt+"/";
     input_dir["ttbar"]  = string(getenv("CMSSW_BASE")) + "/src/CombineHarvester/HTTSMCP2016/shapes/"+input_folder_em+"/";    
     
-    
-    VString chns = {"em","et","mt","tt"};
+    cout << channels << endl;
+    vector<string> channelvec;
+    bool em_channel = false;
+    if(channels=="all"){ channelvec = {"em","et","mt","tt"}; em_channel=true;}
+    else{
+	string c;
+	for(char& s : channels){
+	    if(c=="em") em_channel=true;
+	    if(s==','){ 
+		channelvec.push_back(c);
+		c = "";
+	    }
+	    else c.push_back(s);
+	}
+	channelvec.push_back(c);
+    }
+    VString chns = channelvec;
     if(cross_check) chns = {"mt"};
-    if (ttbar_fit) chns.push_back("ttbar");
+    if (ttbar_fit && em_channel) chns.push_back("ttbar");
+
     
     map<string, VString> bkg_procs;
     bkg_procs["et"] = {"ZTT", "QCD", "ZL", "ZJ","TTT","TTJ", "VVT", "VVJ", "EWKZ", "W"};
@@ -867,7 +885,7 @@ int main(int argc, char** argv) {
       for (string chn : chns){
           string channel = chn;
           string extra = "";
-          if (year == "2017" && !do_control_plots) extra = "/2017/";
+          if (year == "2017" && !do_control_plots) extra = "2017/";
           if(chn == "ttbar") channel = "em"; 
           cb.cp().channel({chn+"_"+year}).backgrounds().ExtractShapes(
                                                              input_dir[chn] + extra + "htt_"+channel+".inputs-sm-13TeV"+postfix+".root",
@@ -919,7 +937,7 @@ int main(int argc, char** argv) {
 
     
     std::vector<std::string> all_prefit_bkgs = {
-        "QCD","ZL","ZJ","ZTT","TTJ","TTT","TT",
+        "QCD","ZL","ZJ","ZTT","TTJ","TTT","TT", "jetFakes",
         "W","W_rest","ZJ_rest","TTJ_rest","VVJ_rest","VV","VVT","VVJ",
         "ggH_hww125","qqH_hww125","EWKZ", "qqHsm_htt125", "qqH_htt125", "WH_htt125", "ZH_htt125"};
     

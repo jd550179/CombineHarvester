@@ -271,8 +271,8 @@ namespace ch {
           ({"et","et_2016","et_2017","mt","mt_2016","mt_2017"}, {105,106}, {"VVT"}, 1.04, 0.96)
         );
 
-        cb.cp().process({"TTT","TT","VVT","VV"}).bin_id({31,32,33,34,35,36,37,41,42,43,44,45,46,47}).AddSyst(cb,
-                                             "CMS_eff_b_13TeV", "shape", SystMap<>::init(1.00));
+        //cb.cp().process({"TTT","TT","VVT","VV"}).bin_id({31,32,33,34,35,36,37,41,42,43,44,45,46,47}).AddSyst(cb,
+        //                                     "CMS_eff_b_13TeV", "shape", SystMap<>::init(1.00));
         
         //##############################################################################
         //  Electron, muon and tau energy Scale
@@ -681,8 +681,8 @@ namespace ch {
         ); 
 
         // PS uncertainty affects njets and pT distribution so is included as a shape uncertainty for the boosted category where pT is fitted
-        cb.cp().process(ggH_sig_procs).bin_id({2,31,32,33,34,35,36,37,41,42,43,44,45,46,47,48,49}).channel({"et","et_2016","et_2017","mt","mt_2016","mt_2017","tt","tt_2016","tt_2017","em","em_2016","em_2017"}).AddSyst(cb,
-                                             "CMS_PS_ggH_13TeV", "shape", SystMap<>::init(1.00));
+        //cb.cp().process(ggH_sig_procs).bin_id({2,31,32,33,34,35,36,37,41,42,43,44,45,46,47,48,49}).channel({"et","et_2016","et_2017","mt","mt_2016","mt_2017","tt","tt_2016","tt_2017","em","em_2016","em_2017"}).AddSyst(cb,
+//                                             "CMS_PS_ggH_13TeV", "shape", SystMap<>::init(1.00));
 
         cb.cp().AddSyst(cb,
           "CMS_PS_ggH_13TeV", "lnN", SystMapAsymm<channel,bin_id,process>::init
