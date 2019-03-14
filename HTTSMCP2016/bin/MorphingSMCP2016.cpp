@@ -935,11 +935,19 @@ int main(int argc, char** argv) {
         if(sys->value_u() <0.001) {sys->set_value_u(0.001);};
     });
 
-    
-    std::vector<std::string> all_prefit_bkgs = {
-        "QCD","ZL","ZJ","ZTT","TTJ","TTT","TT", "jetFakes",
-        "W","W_rest","ZJ_rest","TTJ_rest","VVJ_rest","VV","VVT","VVJ",
-        "ggH_hww125","qqH_hww125","EWKZ", "qqHsm_htt125", "qqH_htt125", "WH_htt125", "ZH_htt125"};
+		std::vector<std::string> all_prefit_bkgs;
+		if(do_embedding) {
+			all_prefit_bkgs = {
+				"QCD","ZL","ZJ","EmbedZTT","TTJ","TTT","TT", "jetFakes",
+				"W","W_rest","ZJ_rest","TTJ_rest","VVJ_rest","VV","VVT","VVJ",
+				"ggH_hww125","qqH_hww125","EWKZ", "qqHsm_htt125", "qqH_htt125", "WH_htt125", "ZH_htt125"};
+		}
+		else{
+			all_prefit_bkgs = {
+					"QCD","ZL","ZJ","ZTT","TTJ","TTT","TT", "jetFakes",
+					"W","W_rest","ZJ_rest","TTJ_rest","VVJ_rest","VV","VVT","VVJ",
+					"ggH_hww125","qqH_hww125","EWKZ", "qqHsm_htt125", "qqH_htt125", "WH_htt125", "ZH_htt125"};
+		};
     
         ////! Option to scale rate
     std::vector< std::string > sig_processes = {"ggHsm_htt125","ggHmm_htt125","ggHps_htt125","qqHsm_htt125","qqHmm_htt125","qqHps_htt125"};
